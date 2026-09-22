@@ -2,9 +2,11 @@ import math
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
+     "rating": 8.6, "duration_min": 155, 
+     "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
     {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
-     "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
+     "rating": 7.1, "duration_min": 98, 
+     "actors": ["A. Novak", "M. Ferguson"]},
     {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
      "rating": 6.4, "duration_min": 112, "actors": ["J. Bloom", "K. Lee"]},
     {"title": "Comet Racers", "year": 2023, "genres": {"sci-fi", "action"},
@@ -30,21 +32,22 @@ def average_rating(movies):
 
     sum = 0
     for i in movies:
-        sum += i['rating']
+        sum += i["rating"]
     return round(sum / len(movies), 1)
 
 def catalog_age_stats(movies, current_year=2026):
     """
-    Функция возвращает кортеж (самый старый фильм в годах, самый новый фильм в годах, средний возраст фильмов в массиве), 
+    Функция возвращает кортеж (самый старый фильм в годах, самый новый фильм в годах,
+    средний возраст фильмов в массиве), 
     где среднее округлено вверх до целого с помощью math.ceil.
     """
 
-    min_year = movies[0]['year']
-    max_year = movies[0]['year']
+    min_year = movies[0]["year"]
+    max_year = movies[0]["year"]
     sum = 0
 
     for i in movies:
-        tmp = i['year']
+        tmp = i["year"]
         if tmp < min_year:
             min_year = tmp
         elif tmp > max_year:
@@ -60,15 +63,46 @@ def duration_in_hours(minutes):
     Функция переводит минуты в формат "2ч 35м",
     используя целочисленное деление и остаток от деления.
     """
-    
+
     hours_res = minutes // 60
     mins_res = minutes % 60
     return f"{hours_res}ч {mins_res}м"
+
+def rating_tier(rating):
+    """
+    По оценке возвращает категорию:
+    "шедевр" (≥9),
+    "хорошо" (7-8.9),
+    "средне" (5-6.9),
+    "слабо" (<5). 
+    """
+
+    return "шедевр" if rating >= 9 else "хорошо" if rating >= 7 else "средне" \
+          if rating >= 5 else "слабо"
+
+def decade_label(year):
+    """
+    Возвращает метку:
+    "новые" (после 2020),
+    "недавние" (2015-2020),
+    "старые" (раньше 2015).
+    """
+    match year:
+        case y if y > 2020:
+            return "новые"
+        case y if y >= 2015:
+            return "недавние"
+        case _: 
+            return "старые"
 
 
 def main() -> None:
     stats = catalog_age_stats(movies)
 
     print(f"Средний рейтинг: {average_rating(movies)}")
-    print(f"Статистика каталога. Самому старому фильму лет: {stats[0]}; самому новому: {stats[1]}; Фильмам в среднем лет: {stats[2]}.")
-    print(f"Продолжительность первого фильма в каталоге: {duration_in_hours(movies[0]['duration_min'])}")
+    print(f"Статистика каталога. Самому старому фильму лет: {stats[0]}; \
+          самому новому: {stats[1]}; Фильмам в среднем лет: {stats[2]}.")
+    print(f"Продолжительность первого фильма в каталоге: \
+          {duration_in_hours(movies[0]['duration_min'])}")
+    print(rating_tier(8))
+    print(decade_label(2014))
