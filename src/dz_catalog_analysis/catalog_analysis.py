@@ -118,10 +118,10 @@ def for_and_while_demonstration(movies):
     while i < len(movies):
         if movies[i]["rating"] > 9:
             title = movies[i]["title"]
+            print(f"Первый найденный фильм с оценкой выше 9.0: {title}")
             break
         i += 1
-    print("Шедевров не найдено" if title is None \
-          else f"Первый найденный фильм с оценкой выше 9.0: {title}")
+    else: print("Шедевров не найдено")
 
 def count_long_movies(movies, threshold=120):
     """
@@ -135,17 +135,48 @@ def count_long_movies(movies, threshold=120):
             sum += 1
     return sum
 
+def normalize_title(title):
+    """
+    Пприводит строку к формату Title Case
+    """
+
+    words = title.split()
+    for i, w in enumerate(words):
+        words[i] = w[0].upper() + w[1:]
+    return " ".join(words)
+
+def make_slug(title):
+    """
+    Превращает нормализованное название в «слаг» вида the-quiet-algorithm.
+    """
+    words = title.split()
+    words = [word.replace(word, word.lower()) for word in words]
+    return "-".join(words)
+
+def format_report_line(movie):
+    """
+    Возвращает единую строку с описанием фильма
+    '"The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi'
+    """
+
+    return f'"{movie["title"]}" ({movie['year']}) - ' \
+    f'{movie["rating"]}/10, {duration_in_hours(movie["duration_min"])}, ' \
+    f'жанры: {", ".join(sorted(movie["genres"]))}'
+
 
 
 def main() -> None:
-    stats = catalog_age_stats(movies)
-
-    print(f"Средний рейтинг: {average_rating(movies)}")
-    print(f"Статистика каталога. Самому старому фильму лет: {stats[0]}; \
-          самому новому: {stats[1]}; Фильмам в среднем лет: {stats[2]}.")
-    print(f"Продолжительность первого фильма в каталоге: \
-          {duration_in_hours(movies[0]['duration_min'])}")
-    print(rating_tier(8))
-    print(decade_label(2014))
-    for_and_while_demonstration(movies)
-    print(count_long_movies(movies))
+    # stats = catalog_age_stats(movies)
+    # print(f"Средний рейтинг: {average_rating(movies)}")
+    # print(f"Статистика каталога. Самому старому фильму лет: {stats[0]}; \
+    #       самому новому: {stats[1]}; Фильмам в среднем лет: {stats[2]}.")
+    # print(f"Продолжительность первого фильма в каталоге: \
+    #       {duration_in_hours(movies[0]['duration_min'])}")
+    # print(rating_tier(8))
+    # print(decade_label(2014))
+    # for_and_while_demonstration(movies)
+    # print(count_long_movies(movies))
+    print(normalize_title("silent hours"))      # "Silent Hours"
+    print(make_slug("Silent Hours"))            # "silent-hours"
+    print(format_report_line(movies[7]))
+    # '"The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi' 
