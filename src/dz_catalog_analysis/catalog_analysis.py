@@ -179,6 +179,28 @@ def top_n_by_rating(movies, n=3):
     sorted_movies = sorted(movies, key = lambda m: m["rating"], reverse=True)[:n]
     return [(m["title"], m["rating"]) for m in sorted_movies]
 
+def count_by_genre(movies):
+    """
+    Возвращает словарь {жанр: количество фильмов}, 
+    построенный вручную через цикл и метод dict.get() (без Counter).
+    """
+
+    res = {}
+    for m in movies:
+        for g in m["genres"]:
+            res[g] = res.get(g, 0) + 1
+    return res
+
+def actor_filmography(movies):
+    """
+    Возвращает словарь {актер: [список названий фильмов]}
+    """
+
+    res = {}
+    for m in movies:
+        for a in m["actors"]:
+            res[a] = res.get(a, 0) + 1
+    return res
+
 def main() -> None:
-    # print(top_n_by_rating(movies))
-    print(titles_sorted_by_rating(movies))
+    print(actor_filmography(movies))
