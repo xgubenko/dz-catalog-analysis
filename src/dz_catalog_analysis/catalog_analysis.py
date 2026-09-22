@@ -209,5 +209,27 @@ def actor_filmography(movies):
 """
 high_rated = {m["title"]: m["rating"] for m in movies if m["rating"] > average_rating(movies)}
 
+def all_genres(movies):
+    """
+    Возвращает множество всех уникальных жанров каталога
+    """
+    res = set()
+    for m in movies:
+        res.update(m["genres"])
+    return res
+
+def common_actors(movie1, movie2):
+    """
+    Возвращает множество актеров, снимавшихся в обоих фильмах.
+    """
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+def genres_only_in_one(movies_a, movies_b):
+    """
+    Возвращает жанры, встречающиеся в movies_a, 
+    но не встречающиеся в movies_b
+    """
+    return movies_a["genres"] - movies_b["genres"]
+
 def main() -> None:
-    print(high_rated)
+    print(genres_only_in_one(movies[0], movies[1]))
