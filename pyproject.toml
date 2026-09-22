@@ -1,17 +1,10 @@
 [project]
-name = "dz-catalog-analysis"
+name = "test"
 version = "0.1.0"
-description = "Add your description here"
+description = "Catalog analysis"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
-
-[project.scripts]
-catalog-analysis = "dz_catalog_analysis.catalog_analysis:main"
-
-[build-system]
-requires = ["uv_build>=0.12.17,<0.13.0"]
-build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
