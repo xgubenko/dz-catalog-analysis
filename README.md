@@ -1,5 +1,11 @@
-uv run catalog-analysis
+# Домашнее задание №1. Аналитика каталога стримингового сервиса
 
-uv run ruff check src/dz_catalog_analysis/catalog_analysis.py
+## Получение отчета
+```bash
+uv run catalog_analysis.py
+```
+
+## Проверка кода
+```bash
 uv run ruff check .
- 
+```
