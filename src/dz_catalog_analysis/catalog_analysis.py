@@ -202,5 +202,12 @@ def actor_filmography(movies):
             res[a] = res.get(a, 0) + 1
     return res
 
+"""
+С помощью генератора словаря (dict comprehension) постройте словарь 
+{title: rating} только для фильмов с рейтингом выше среднего 
+(используйте average_rating из этапа 1).
+"""
+high_rated = {m["title"]: m["rating"] for m in movies if m["rating"] > average_rating(movies)}
+
 def main() -> None:
-    print(actor_filmography(movies))
+    print(high_rated)
