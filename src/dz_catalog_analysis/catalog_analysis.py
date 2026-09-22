@@ -160,7 +160,7 @@ def format_report_line(movie):
     '"The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi'
     """
 
-    return f'"{movie["title"]}" ({movie['year']}) - ' \
+    return f'"{movie["title"]}" ({movie["year"]}) - ' \
     f'{movie["rating"]}/10, {duration_in_hours(movie["duration_min"])}, ' \
     f'жанры: {", ".join(sorted(movie["genres"]))}'
 
@@ -231,5 +231,28 @@ def genres_only_in_one(movies_a, movies_b):
     """
     return movies_a["genres"] - movies_b["genres"]
 
+def iter_high_rated(movies, min_rating=8.0):
+    """
+    Лениво отдает фильмы с рейтингом не ниже min_rating
+    """
+
+    for m in movies:
+        if m["rating"] > min_rating:
+            yield m
+
+"""
+Продемонстрируйте ее работу циклом for с вызовом format_report_line.
+"""
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+
+"""
+Напишите генераторное выражение, которое считает 
+суммарную длительность всех фильмов с рейтингом 
+выше 7 в минутах, и передайте его в sum().
+"""
+print(sum(m["duration_min"] for m in movies if m["rating"] > 7))
+
 def main() -> None:
-    print(genres_only_in_one(movies[0], movies[1]))
+    # print(format_report_line(movies[0]))
+    pass
