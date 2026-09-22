@@ -207,7 +207,8 @@ def actor_filmography(movies):
 {title: rating} только для фильмов с рейтингом выше среднего 
 (используйте average_rating из этапа 1).
 """
-high_rated = {m["title"]: m["rating"] for m in movies if m["rating"] > average_rating(movies)}
+high_rated = {m["title"]: m["rating"] for m in movies \
+               if m["rating"] > average_rating(movies)}
 
 def all_genres(movies):
     """
@@ -241,18 +242,46 @@ def iter_high_rated(movies, min_rating=8.0):
             yield m
 
 """
-Продемонстрируйте ее работу циклом for с вызовом format_report_line.
+Продемонстрируйте работу циклом for с вызовом format_report_line.
 """
-for movie in iter_high_rated(movies):
-    print(format_report_line(movie))
+# for movie in iter_high_rated(movies):
+#         print(format_report_line(movie))
 
 """
 Напишите генераторное выражение, которое считает 
 суммарную длительность всех фильмов с рейтингом 
 выше 7 в минутах, и передайте его в sum().
 """
-print(sum(m["duration_min"] for m in movies if m["rating"] > 7))
+# print(sum(m["duration_min"] for m in movies if m["rating"] > 7))
+
+def build_report(movies):
+    """
+    объединяет результаты всех предыдущих этапов 
+    в единый консольный отчет: общую статистику, 
+    топ-3 фильма, количество фильмов по каждому 
+    жанру и полный список уникальных жанров каталога.
+    """
+
+    titles = [x[0] for x in top_n_by_rating(movies)]
+    top_movies = [m for m in movies if m["title"] in titles]
+
+    genre_counts = count_by_genre(movies).items()
+    sorted_genres = sorted(genre_counts, key=lambda x: x[1], reverse=True)
+
+    print(f"""ОТЧЕТ ПО КАТАЛОГУ
+Средний рейтинг: {average_rating(movies)}
+Средний возраст фильмов: {catalog_age_stats(movies)[2]} лет
+
+Топ-3 фильма:
+    {'\n    '.join(format_report_line(m) for m in top_movies)}
+
+Фильмов по жанрам:
+    {"\n    ".join(f"{k} — {v}" for k, v in sorted_genres)}
+    
+
+Все жанры каталога: {", ".join(sorted(all_genres(movies)))}""")
+
+
 
 def main() -> None:
-    # print(format_report_line(movies[0]))
-    pass
+    build_report(movies)
