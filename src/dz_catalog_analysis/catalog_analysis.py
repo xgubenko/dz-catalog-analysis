@@ -121,7 +121,8 @@ def for_and_while_demonstration(movies):
             print(f"Первый найденный фильм с оценкой выше 9.0: {title}")
             break
         i += 1
-    else: print("Шедевров не найдено")
+    else: 
+        print("Шедевров не найдено")
 
 def count_long_movies(movies, threshold=120):
     """
@@ -137,7 +138,7 @@ def count_long_movies(movies, threshold=120):
 
 def normalize_title(title):
     """
-    Пприводит строку к формату Title Case
+    Приводит строку к формату Title Case
     """
 
     words = title.split()
@@ -163,20 +164,21 @@ def format_report_line(movie):
     f'{movie["rating"]}/10, {duration_in_hours(movie["duration_min"])}, ' \
     f'жанры: {", ".join(sorted(movie["genres"]))}'
 
+def titles_sorted_by_rating(movies):
+    """
+    Возвращает список названий фильмов, отсортированных по убыванию рейтинга
+    """
+    sorted_movies = sorted(movies, key = lambda m: m["rating"], reverse=True)
+    return [m["title"] for m in sorted_movies]
 
+def top_n_by_rating(movies, n=3):
+    """
+    Возвращает список из n кортежей (title, rating) — топ по рейтингу
+    """
+
+    sorted_movies = sorted(movies, key = lambda m: m["rating"], reverse=True)[:n]
+    return [(m["title"], m["rating"]) for m in sorted_movies]
 
 def main() -> None:
-    # stats = catalog_age_stats(movies)
-    # print(f"Средний рейтинг: {average_rating(movies)}")
-    # print(f"Статистика каталога. Самому старому фильму лет: {stats[0]}; \
-    #       самому новому: {stats[1]}; Фильмам в среднем лет: {stats[2]}.")
-    # print(f"Продолжительность первого фильма в каталоге: \
-    #       {duration_in_hours(movies[0]['duration_min'])}")
-    # print(rating_tier(8))
-    # print(decade_label(2014))
-    # for_and_while_demonstration(movies)
-    # print(count_long_movies(movies))
-    print(normalize_title("silent hours"))      # "Silent Hours"
-    print(make_slug("Silent Hours"))            # "silent-hours"
-    print(format_report_line(movies[7]))
-    # '"The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi' 
+    # print(top_n_by_rating(movies))
+    print(titles_sorted_by_rating(movies))
