@@ -87,6 +87,7 @@ def decade_label(year):
     "недавние" (2015-2020),
     "старые" (раньше 2015).
     """
+
     match year:
         case y if y > 2020:
             return "новые"
@@ -94,6 +95,46 @@ def decade_label(year):
             return "недавние"
         case _: 
             return "старые"
+
+def for_and_while_demonstration(movies):
+    """
+    Выводит на экран названия всех фильмов,
+    которые НЕ относятся к жанру "comedy"
+
+    Находит первый по порядку в списке фильм с рейтингом выше 9.0;
+    если такого фильма нет, цикл должен завершиться веткой
+    else с сообщением "Шедевров не найдено"
+    """
+
+    for m in movies:
+        if "comedy" in m["genres"]:
+            continue
+        print(m["title"])
+        print(m)
+
+    i = 0
+    title = None
+
+    while i < len(movies):
+        if movies[i]["rating"] > 9:
+            title = movies[i]["title"]
+            break
+        i += 1
+    print("Шедевров не найдено" if title is None \
+          else f"Первый найденный фильм с оценкой выше 9.0: {title}")
+
+def count_long_movies(movies, threshold=120):
+    """
+    через for с накопительной переменной считает количество фильмов
+    длиннее threshold минут
+    """
+
+    sum = 0
+    for m in movies:
+        if m["duration_min"] > 120:
+            sum += 1
+    return sum
+
 
 
 def main() -> None:
@@ -106,3 +147,5 @@ def main() -> None:
           {duration_in_hours(movies[0]['duration_min'])}")
     print(rating_tier(8))
     print(decade_label(2014))
+    for_and_while_demonstration(movies)
+    print(count_long_movies(movies))
